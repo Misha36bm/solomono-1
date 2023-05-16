@@ -4,12 +4,17 @@
     "autoload": {
         "psr-4": {
             "Solomono\\Tz1\\": "src/"
-        }
+        },
+        "files": [
+            "src/Support/helpers.php"
+        ]
     },
     "authors": [
         {
             "name": "Misha36bm"
         }
     ],
-    "require": {}
+    "require": {
+        "illuminate/database": "^10.11"
+    }
 }
