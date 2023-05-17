@@ -75,6 +75,23 @@ if (!function_exists('get_product_model')) {
     }
 }
 
+if (!function_exists('product_card_template')) {
+    function product_card_template($product)
+    {
+        return "
+        <div class=\"card-block mb-4 col-4\">
+            <div class=\"card\">
+                <div class=\"card-body text-center\">
+                    <h5 class=\"card-title\">$product->name</h5>
+                    <h6 class=\"card-subtitle mb-2 text-body-secondary\">$product->price</h6>
+                    <p class=\"card-text\">$product->date</p>
+                </div>
+            </div>
+        </div>
+        ";
+    }
+}
+
 if (!function_exists('get_category_model')) {
     function get_category_model()
     {
