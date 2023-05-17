@@ -79,10 +79,11 @@ if (!function_exists('product_card_template')) {
     function product_card_template($product)
     {
         return "
-        <div class=\"card-block mb-4 col-4\" data-bs-toggle=\"modal\" data-bs-target=\"#productModal$product->id\">
+        <div class=\"card-block mb-4 col-4\">
             <div class=\"card\">
                 <div class=\"card-body text-center\">
                     <h5 class=\"card-title\">$product->name</h5>
+                    <h6 class=\"btn btn-link mb-0\" data-bs-toggle=\"modal\" data-bs-target=\"#productModal$product->id\">Buy</h6>
                 </div>
             </div>
         </div>
