@@ -36,9 +36,10 @@
                     $('#products-block').html('')
 
                     $.each(result, (index, product) => {
-                        console.log(product);
                         $('#products-block').append(product)
                     })
+
+                    window.history.pushState({}, '', '?sortBy=' + selectedOption);
                 },
 
                 complete: function(data) {
