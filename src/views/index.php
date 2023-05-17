@@ -11,7 +11,11 @@
 </head>
 
 <body>
-
+    <main class="container-fluid g-0">
+        <div class="row">
+            <?php require_once(__DIR__ . '/partials/aside-menu.html');?>
+        </div>
+    </main>
 
     <?php require_once(__DIR__ . '/partials/scripts.php'); ?>
 </body>
