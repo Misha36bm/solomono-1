@@ -7,8 +7,7 @@
             $categories->each(function ($category, $index) {
                 $isActive = false ? 'selected' : '';
 
-                echo '<option value="' . $category->id . '" ' . $isActive . '>' .
-                    $category->name . '</option>';
+                echo '<option value="' . $category->id . '" ' . $isActive . '>' . $category->name . '</option>';
             });
         ?>
     </select>
