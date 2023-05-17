@@ -17,6 +17,8 @@ class CreateProductsTable
         if (!self::$schema->hasTable(self::$table)) {
             self::$schema->create(self::$table, function (Blueprint $table) {
                 $table->id();
+                $table->unsignedInteger('category_id');
+                $table->foreign('category_id')->references('id')->on('products');
                 $table->string('name');
                 $table->float('price');
                 $table->date('date');
