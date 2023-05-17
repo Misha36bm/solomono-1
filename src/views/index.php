@@ -13,9 +13,9 @@
 <body>
     <main class="container-fluid g-0 py-5">
         <div class="row">
-            <?php require_once(__DIR__ . '/partials/aside-menu.html');?>
+            <?php require_once(__DIR__ . '/partials/aside-menu.php');?>
 
-            <?php require_once(__DIR__ . '/partials/products.html');?>
+            <?php require_once(__DIR__ . '/partials/products.php');?>
         </div>
     </main>
 
