@@ -1,5 +1,6 @@
 <?php
 
+use Solomono\Tz1\Models\{Product, Category};
 use Solomono\Tz1\Database\Seeders\DatabaseSeeder;
 use Solomono\Tz1\Database\Migrations\{CreateCategoriesTable, CreateProductsTable};
 
@@ -64,5 +65,19 @@ if (!function_exists('run_seeder')) {
     function run_seeder()
     {
         DatabaseSeeder::run();
+    }
+}
+
+if (!function_exists('get_product_model')) {
+    function get_product_model()
+    {
+        return new Product();
+    }
+}
+
+if (!function_exists('get_category_model')) {
+    function get_category_model()
+    {
+        return new Category();
     }
 }
