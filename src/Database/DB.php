@@ -33,10 +33,18 @@ class DB
     }
 
     /**
+     * @return \Illuminate\Database\Capsule\Manager
+     */
+    public static function getCapsule()
+    {
+        return self::getInstance()->capsule;
+    }
+
+    /**
      * @return \Illuminate\Database\Query\Builder
      */
     public static function table(string $tableName)
     {
-        return self::getInstance()->capsule->table($tableName);
+        return self::getCapsule()->table($tableName);
     }
 }
