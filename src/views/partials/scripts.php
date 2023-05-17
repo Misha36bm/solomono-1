@@ -11,15 +11,19 @@
         SORT_BY_SELECT.on('change', (e) => {
             let selectedOption = SORT_BY_SELECT.val();
 
+            let data = {
+                selectedOption
+            }
+
             $.ajax({
                 type: 'POST',
                 url: '/?action=sortBy',
                 data: {
-                    selectedOption
+                    data
                 },
 
                 beforeSend: function(data) {
-                    SORT_BY_SELECT.attr('disabled','');
+                    SORT_BY_SELECT.attr('disabled', '');
                 },
 
                 error: function(error) {
@@ -27,7 +31,14 @@
                 },
 
                 success: function(data) {
-                    console.log(data);
+                    let result = JSON.parse(data)
+
+                    $('#products-block').html('')
+
+                    $.each(result, (index, product) => {
+                        console.log(product);
+                        $('#products-block').append(product)
+                    })
                 },
 
                 complete: function(data) {

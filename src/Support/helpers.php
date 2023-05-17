@@ -116,3 +116,42 @@ if (!function_exists('get_category_model')) {
         return new Category();
     }
 }
+
+if (!function_exists('api')) {
+    function api($action, $data)
+    {
+        $result = [];
+
+        switch ($action) {
+            case 'sortBy':
+                switch ($data['selectedOption']) {
+                    case 'name':
+                        $products = Product::getProducts()->sortBy('name');
+                        break;
+                    case 'date':
+                        $products = Product::getProducts()->sortBy('date')->reverse();
+                        break;
+                    case 'lower_price':
+                        $products = Product::getProducts()->sortBy('price');
+                        break;
+
+                    default:
+                        $products = Product::getProducts();
+                        break;
+                }
+                
+                foreach($products as $product){
+                    array_push($result, product_card_template($product));
+                }
+
+                die(json_encode($result));
+                break;
+
+            default:
+                # code...
+                break;
+        }
+
+        return json_encode($result);
+    }
+}

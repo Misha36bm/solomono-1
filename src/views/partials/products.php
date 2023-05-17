@@ -4,7 +4,7 @@
         $product = $products->first();
     ?>
 
-    <div class="row d-flex justify-content-between">
+    <div class="row d-flex justify-content-between" id="products-block">
         <?php
             foreach ($products as $product) {
                 echo product_card_template($product);
