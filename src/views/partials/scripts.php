@@ -6,14 +6,15 @@
 
 <script>
     (() => {
-        const SORT_BY_SELECT = $('#sort-by-select')
+        const SORT_BY_SELECT = $('#sort-by-select');
+        const CATEGORY_SELECT = $('#category-select');
 
         SORT_BY_SELECT.on('change', (e) => {
             let selectedOption = SORT_BY_SELECT.val();
 
             let data = {
                 selectedOption
-            }
+            };
 
             $.ajax({
                 type: 'POST',
@@ -31,13 +32,13 @@
                 },
 
                 success: function(data) {
-                    let result = JSON.parse(data)
+                    let result = JSON.parse(data);
 
-                    $('#products-block').html('')
+                    $('#products-block').html('');
 
                     $.each(result, (index, product) => {
-                        $('#products-block').append(product)
-                    })
+                        $('#products-block').append(product);
+                    });
 
                     window.history.pushState({}, '', '?sortBy=' + selectedOption);
                 },
@@ -46,6 +47,46 @@
                     SORT_BY_SELECT.removeAttr('disabled');
                 }
             });
-        })
+        });
+
+        CATEGORY_SELECT.on('change', (e) => {
+            let selectedOption = CATEGORY_SELECT.val();
+
+            let data = {
+                selectedOption
+            };
+
+            $.ajax({
+                type: 'POST',
+                url: '/?action=changeCategory',
+                data: {
+                    data
+                },
+
+                beforeSend: function(data) {
+                    SORT_BY_SELECT.attr('disabled', '');
+                },
+
+                error: function(error) {
+                    console.log(error);
+                },
+
+                success: function(data) {
+                    let result = JSON.parse(data);
+
+                    $('#products-block').html('');
+
+                    $.each(result, (index, product) => {
+                        $('#products-block').append(product);
+                    });
+
+                    window.history.pushState({}, '', '?changeCategory=' + selectedOption);
+                },
+
+                complete: function(data) {
+                    SORT_BY_SELECT.removeAttr('disabled');
+                }
+            });
+        });
     })()
 </script>

@@ -139,8 +139,19 @@ if (!function_exists('api')) {
                         $products = Product::getProducts();
                         break;
                 }
-                
-                foreach($products as $product){
+
+                foreach ($products as $product) {
+                    array_push($result, product_card_template($product));
+                }
+
+                die(json_encode($result));
+                break;
+
+            case 'changeCategory':
+
+                $products = Product::getProducts()->where('category_id', $data['selectedOption']);
+
+                foreach ($products as $product) {
                     array_push($result, product_card_template($product));
                 }
 
@@ -148,10 +159,8 @@ if (!function_exists('api')) {
                 break;
 
             default:
-                # code...
+                die(json_encode($result));
                 break;
         }
-
-        return json_encode($result);
     }
 }

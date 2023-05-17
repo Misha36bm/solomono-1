@@ -1,6 +1,6 @@
 <div class="col-2 offset-1 d-flex justify-content-start flex-column">
     <select class="form-select text-center" id="category-select">
-        <option selected>Select category</option>
+        <option selected disabled>Select category</option>
         <?php
             $categories = get_category_model()->getCategories();
 
