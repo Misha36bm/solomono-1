@@ -1,5 +1,8 @@
 <?php
 
+use Solomono\Tz1\Database\Seeders\DatabaseSeeder;
+use Solomono\Tz1\Database\Migrations\{CreateCategoriesTable, CreateProductsTable};
+
 if (!function_exists('config')) {
 
     /**
@@ -46,5 +49,20 @@ if (!function_exists('dd')) {
         }
         echo '</pre>';
         die;
+    }
+}
+
+if (!function_exists('run_migrations')) {
+    function run_migrations()
+    {
+        CreateCategoriesTable::run();
+        CreateProductsTable::run();
+    }
+}
+
+if (!function_exists('run_seeder')) {
+    function run_seeder()
+    {
+        DatabaseSeeder::run();
     }
 }
