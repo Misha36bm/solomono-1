@@ -98,6 +98,7 @@ if (!function_exists('product_card_template')) {
                 <div class=\"modal-body\">
                     <p>$product->price</p>
                     <p>$product->date</p>
+                    <p>$product->category_id</p>
                 </div>
                 <div class=\"modal-footer\">
                     <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\">Close</button>
@@ -124,19 +125,25 @@ if (!function_exists('api')) {
 
         switch ($action) {
             case 'sortBy':
+                $oldSortProduct = Product::getProducts();
+
+                if (isset($data['changeCategory'])) {
+                    $oldSortProduct = Product::getProducts()->where('category_id', $data['changeCategory']);
+                }
+
                 switch ($data['selectedOption']) {
                     case 'name':
-                        $products = Product::getProducts()->sortBy('name');
+                        $products = $oldSortProduct->sortBy('name');
                         break;
                     case 'date':
-                        $products = Product::getProducts()->sortBy('date')->reverse();
+                        $products = $oldSortProduct->sortBy('date')->reverse();
                         break;
                     case 'lower_price':
-                        $products = Product::getProducts()->sortBy('price');
+                        $products = $oldSortProduct->sortBy('price');
                         break;
 
                     default:
-                        $products = Product::getProducts();
+                        $products = $oldSortProduct;
                         break;
                 }
 
@@ -148,8 +155,27 @@ if (!function_exists('api')) {
                 break;
 
             case 'changeCategory':
+                $oldSortProduct = Product::getProducts();
 
-                $products = Product::getProducts()->where('category_id', $data['selectedOption']);
+                if (isset($data['sortBy'])) {
+                    switch ($data['sortBy']) {
+                        case 'name':
+                            $oldSortProduct = $oldSortProduct->sortBy('name');
+                            break;
+                        case 'date':
+                            $oldSortProduct = $oldSortProduct->sortBy('date')->reverse();
+                            break;
+                        case 'lower_price':
+                            $oldSortProduct = $oldSortProduct->sortBy('price');
+                            break;
+
+                        default:
+                            $oldSortProduct = Product::getProducts();
+                            break;
+                    }
+                }
+
+                $products = $oldSortProduct->where('category_id', $data['selectedOption']);
 
                 foreach ($products as $product) {
                     array_push($result, product_card_template($product));

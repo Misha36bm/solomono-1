@@ -16,37 +16,7 @@
                 selectedOption
             };
 
-            $.ajax({
-                type: 'POST',
-                url: '/?action=sortBy',
-                data: {
-                    data
-                },
-
-                beforeSend: function(data) {
-                    SORT_BY_SELECT.attr('disabled', '');
-                },
-
-                error: function(error) {
-                    console.log(error);
-                },
-
-                success: function(data) {
-                    let result = JSON.parse(data);
-
-                    $('#products-block').html('');
-
-                    $.each(result, (index, product) => {
-                        $('#products-block').append(product);
-                    });
-
-                    window.history.pushState({}, '', '?sortBy=' + selectedOption);
-                },
-
-                complete: function(data) {
-                    SORT_BY_SELECT.removeAttr('disabled');
-                }
-            });
+            ajaxTemplate('sortBy', data, SORT_BY_SELECT);
         });
 
         CATEGORY_SELECT.on('change', (e) => {
@@ -56,23 +26,45 @@
                 selectedOption
             };
 
+            ajaxTemplate('changeCategory', data, CATEGORY_SELECT)
+        });
+
+        let ajaxTemplate = (action, data, toggler) => {
+
+            const queryString = window.location.search;
+
+            const params = new URLSearchParams(queryString);
+
+            // old params from URL
+            const getParams = {};
+
+            for (const [key, value] of params.entries()) {
+                getParams[key] = value;
+            }
+
+            $.each(getParams, (key, val) => {
+                if (key != action) {
+                    data[key] = val
+                }
+            })
+
             $.ajax({
                 type: 'POST',
-                url: '/?action=changeCategory',
+                url: '/?action=' + action,
                 data: {
                     data
                 },
 
                 beforeSend: function(data) {
-                    SORT_BY_SELECT.attr('disabled', '');
+                    toggler.attr('disabled', '');
                 },
 
                 error: function(error) {
                     console.log(error);
                 },
 
-                success: function(data) {
-                    let result = JSON.parse(data);
+                success: function(res) {
+                    let result = JSON.parse(res);
 
                     $('#products-block').html('');
 
@@ -80,13 +72,49 @@
                         $('#products-block').append(product);
                     });
 
-                    window.history.pushState({}, '', '?changeCategory=' + selectedOption);
+                    changeUrl(action, data.selectedOption)
                 },
 
                 complete: function(data) {
-                    SORT_BY_SELECT.removeAttr('disabled');
+                    toggler.removeAttr('disabled');
                 }
             });
-        });
+        }
+
+        let changeUrl = (action, selectedOption) => {
+            const queryString = window.location.search;
+
+            const params = new URLSearchParams(queryString);
+
+            // old params from URL
+            const getParams = {};
+
+            for (const [key, value] of params.entries()) {
+                getParams[key] = value;
+            }
+
+            let url = '?' + action + '=' + selectedOption
+
+            if (Object.keys(getParams).length > 0) {
+                let iteration = 0;
+
+                if (action in getParams && getParams[action] != selectedOption) {
+                    delete getParams[action]
+                }
+
+                $.each(getParams, (key, param) => {
+                    if (iteration = 0) {
+                        url = '?' + key + '=' + param
+                        iteration = 1
+                    } else {
+                        url += '&' + key + '=' + param
+                        return;
+                    }
+                });
+            }
+
+            window.history.pushState({}, '', window.location.origin + window.location.pathname);
+            window.history.pushState({}, '', url);
+        }
     })()
 </script>
